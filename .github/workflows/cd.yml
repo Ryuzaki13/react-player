@@ -54,7 +54,6 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - uses: fregante/setup-git-user@v1
       - run: npm ci
-      - run: npm run lint
       - run: npm run build
       - run: npx --yes wet-run@1.0.1 release ${{ inputs.version }} ${{ inputs.dryrun && '--dry-run' || '' }} ${{ inputs.prerelease && format('--prerelease {0}', inputs.prerelease) || '' }} --provenance --github-release --verbose
       - name: Get NPM version

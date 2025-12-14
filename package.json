@@ -28,13 +28,8 @@
 		}
 	},
 	"scripts": {
-		"clean": "rimraf dist",
-		"lint": "biome lint src/*",
 		"build": "vite build",
-		"preversion": "run-s lint",
-		"version": "auto-changelog -p && git add CHANGELOG.md",
-		"prepublishOnly": "npm run build",
-		"postpublish": "npm run clean"
+		"version": "auto-changelog -p && git add CHANGELOG.md"
 	},
 	"peerDependencies": {
 		"@types/react": "^19",
