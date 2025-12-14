@@ -1,0 +1,43 @@
+{
+	"singleQuote": false,
+	"semi": true,
+	"bracketSpacing": true,
+	"bracketSameLine": true,
+	"useTabs": true,
+	"tabWidth": 4,
+	"printWidth": 140,
+	"trailingComma": "none",
+	"arrowParens": "always",
+	"quoteProps": "as-needed",
+	"jsxSingleQuote": false,
+	"htmlWhitespaceSensitivity": "css",
+	"endOfLine": "lf",
+	"embeddedLanguageFormatting": "auto",
+	"requirePragma": false,
+	"insertPragma": false,
+	"importOrder": [
+		"^react",
+		"^@api/(.*)$",
+		"^@app/(.*)$",
+		"^@store/(.*)$",
+		"^@hooks/(.*)$",
+		"^@components/(.*)$",
+		"^@ui/(.*)$",
+		"^@registry/(.*)$",
+		"^@toolkit/(.*)$",
+		"^@declarations/(.*)$",
+		"^[./]"
+	],
+	"importOrderSeparation": true,
+	"importOrderSortSpecifiers": true,
+	"importOrderGroupNamespaceSpecifiers": true,
+	"overrides": [
+		{
+			"files": "*.yml",
+			"options": {
+				"tabWidth": 2,
+				"useTabs": true
+			}
+		}
+	]
+}

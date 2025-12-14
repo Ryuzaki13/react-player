@@ -1,10 +1,10 @@
 // biome-ignore lint/style/useImportType:
-import React, { useState, useRef, useCallback } from 'react';
-import screenfull from 'screenfull';
+import React, { useCallback, useRef, useState } from "react";
+import screenfull from "screenfull";
 
-import { version } from '../../../package.json';
-import ReactPlayer from '../../../';
-import Duration from './Duration';
+import { version } from "../../../package.json";
+import ReactPlayer from "../../../src";
+import Duration from "./Duration";
 
 const App = () => {
   const playerRef = useRef<HTMLVideoElement | null>(null);
@@ -28,14 +28,14 @@ const App = () => {
     playedSeconds: 0,
   };
 
-  type PlayerState = Omit<typeof initialState, 'src'> & {
+  type PlayerState = Omit<typeof initialState, "src"> & {
     src?: string;
   };
 
   const [state, setState] = useState<PlayerState>(initialState);
 
   const load = (src?: string) => {
-    setState(prevState => ({
+    setState((prevState) => ({
       ...prevState,
       src,
       played: 0,
@@ -45,39 +45,46 @@ const App = () => {
   };
 
   const handlePlayPause = () => {
-    setState(prevState => ({ ...prevState, playing: !prevState.playing }));
+    setState((prevState) => ({ ...prevState, playing: !prevState.playing }));
   };
 
   const handleStop = () => {
-    setState(prevState => ({ ...prevState, src: undefined, playing: false }));
+    setState((prevState) => ({ ...prevState, src: undefined, playing: false }));
   };
 
   const handleToggleControls = () => {
-    setState(prevState => ({ ...prevState, controls: !prevState.controls }));
+    setState((prevState) => ({ ...prevState, controls: !prevState.controls }));
   };
 
   const handleToggleLight = () => {
-    setState(prevState => ({ ...prevState, light: !prevState.light }));
+    setState((prevState) => ({ ...prevState, light: !prevState.light }));
   };
 
   const handleToggleLoop = () => {
-    setState(prevState => ({ ...prevState, loop: !prevState.loop }));
+    setState((prevState) => ({ ...prevState, loop: !prevState.loop }));
   };
 
-  const handleVolumeChange = (event: React.SyntheticEvent<HTMLInputElement>) => {
+  const handleVolumeChange = (
+    event: React.SyntheticEvent<HTMLInputElement>
+  ) => {
     const inputTarget = event.target as HTMLInputElement;
-    setState(prevState => ({ ...prevState, volume: Number.parseFloat(inputTarget.value) }));
+    setState((prevState) => ({
+      ...prevState,
+      volume: Number.parseFloat(inputTarget.value),
+    }));
   };
 
   const handleToggleMuted = () => {
-    setState(prevState => ({ ...prevState, muted: !prevState.muted }));
+    setState((prevState) => ({ ...prevState, muted: !prevState.muted }));
   };
 
-  const handleSetPlaybackRate = (event: React.SyntheticEvent<HTMLButtonElement>) => {
+  const handleSetPlaybackRate = (
+    event: React.SyntheticEvent<HTMLButtonElement>
+  ) => {
     const buttonTarget = event.target as HTMLButtonElement;
-    setState(prevState => ({
+    setState((prevState) => ({
       ...prevState,
-      playbackRate: Number.parseFloat(`${buttonTarget.dataset.value}`)
+      playbackRate: Number.parseFloat(`${buttonTarget.dataset.value}`),
     }));
   };
 
@@ -85,47 +92,54 @@ const App = () => {
     const player = playerRef.current;
     if (!player) return;
 
-    setState(prevState => ({ ...prevState, playbackRate: player.playbackRate }));
+    setState((prevState) => ({
+      ...prevState,
+      playbackRate: player.playbackRate,
+    }));
   };
 
   const handleTogglePIP = () => {
-    setState(prevState => ({ ...prevState, pip: !prevState.pip }));
+    setState((prevState) => ({ ...prevState, pip: !prevState.pip }));
   };
 
   const handlePlay = () => {
-    console.log('onPlay');
-    setState(prevState => ({ ...prevState, playing: true }));
+    console.log("onPlay");
+    setState((prevState) => ({ ...prevState, playing: true }));
   };
 
   const handleEnterPictureInPicture = () => {
-    console.log('onEnterPictureInPicture');
-    setState(prevState => ({ ...prevState, pip: true }));
+    console.log("onEnterPictureInPicture");
+    setState((prevState) => ({ ...prevState, pip: true }));
   };
 
   const handleLeavePictureInPicture = () => {
-    console.log('onLeavePictureInPicture');
-    setState(prevState => ({ ...prevState, pip: false }));
+    console.log("onLeavePictureInPicture");
+    setState((prevState) => ({ ...prevState, pip: false }));
   };
 
   const handlePause = () => {
-    console.log('onPause');
-    setState(prevState => ({ ...prevState, playing: false }));
+    console.log("onPause");
+    setState((prevState) => ({ ...prevState, playing: false }));
   };
 
   const handleSeekMouseDown = () => {
-    setState(prevState => ({ ...prevState, seeking: true }));
+    setState((prevState) => ({ ...prevState, seeking: true }));
   };
 
   const handleSeekChange = (event: React.SyntheticEvent<HTMLInputElement>) => {
     const inputTarget = event.target as HTMLInputElement;
-    setState(prevState => ({ ...prevState, played: Number.parseFloat(inputTarget.value) }));
+    setState((prevState) => ({
+      ...prevState,
+      played: Number.parseFloat(inputTarget.value),
+    }));
   };
 
   const handleSeekMouseUp = (event: React.SyntheticEvent<HTMLInputElement>) => {
     const inputTarget = event.target as HTMLInputElement;
-    setState(prevState => ({ ...prevState, seeking: false }));
+    setState((prevState) => ({ ...prevState, seeking: false }));
     if (playerRef.current) {
-      playerRef.current.currentTime = Number.parseFloat(inputTarget.value) * playerRef.current.duration;
+      playerRef.current.currentTime =
+        Number.parseFloat(inputTarget.value) * playerRef.current.duration;
     }
   };
 
@@ -134,12 +148,13 @@ const App = () => {
     // We only want to update time slider if we are not currently seeking
     if (!player || state.seeking || !player.buffered?.length) return;
 
-    console.log('onProgress');
+    console.log("onProgress");
 
-    setState(prevState => ({
+    setState((prevState) => ({
       ...prevState,
       loadedSeconds: player.buffered?.end(player.buffered?.length - 1),
-      loaded: player.buffered?.end(player.buffered?.length - 1) / player.duration,
+      loaded:
+        player.buffered?.end(player.buffered?.length - 1) / player.duration,
     }));
   };
 
@@ -148,11 +163,11 @@ const App = () => {
     // We only want to update time slider if we are not currently seeking
     if (!player || state.seeking) return;
 
-    console.log('onTimeUpdate', player.currentTime);
+    console.log("onTimeUpdate", player.currentTime);
 
     if (!player.duration) return;
 
-    setState(prevState => ({
+    setState((prevState) => ({
       ...prevState,
       playedSeconds: player.currentTime,
       played: player.currentTime / player.duration,
@@ -160,20 +175,20 @@ const App = () => {
   };
 
   const handleEnded = () => {
-    console.log('onEnded');
-    setState(prevState => ({ ...prevState, playing: prevState.loop }));
+    console.log("onEnded");
+    setState((prevState) => ({ ...prevState, playing: prevState.loop }));
   };
 
   const handleDurationChange = () => {
     const player = playerRef.current;
     if (!player) return;
 
-    console.log('onDurationChange', player.duration);
-    setState(prevState => ({ ...prevState, duration: player.duration }));
+    console.log("onDurationChange", player.duration);
+    setState((prevState) => ({ ...prevState, duration: player.duration }));
   };
 
   const handleClickFullscreen = () => {
-    const reactPlayer = document.querySelector('.react-player');
+    const reactPlayer = document.querySelector(".react-player");
     if (reactPlayer) screenfull.request(reactPlayer);
   };
 
@@ -193,7 +208,10 @@ const App = () => {
 
   const handleLoadCustomUrl = () => {
     if (urlInputRef.current?.value) {
-      setState(prevState => ({ ...prevState, src: urlInputRef.current?.value }));
+      setState((prevState) => ({
+        ...prevState,
+        src: urlInputRef.current?.value,
+      }));
     }
   };
 
@@ -212,7 +230,7 @@ const App = () => {
     pip,
   } = state;
 
-  const SEPARATOR = ' · ';
+  const SEPARATOR = " · ";
 
   return (
     <div className="app">
@@ -222,7 +240,7 @@ const App = () => {
           <ReactPlayer
             ref={setPlayerRef}
             className="react-player"
-            style={{ width: '100%', height: 'auto', aspectRatio: '16/9' }}
+            style={{ width: "100%", height: "auto", aspectRatio: "16/9" }}
             src={src}
             pip={pip}
             playing={playing}
@@ -232,41 +250,18 @@ const App = () => {
             playbackRate={playbackRate}
             volume={volume}
             muted={muted}
-            config={{
-              youtube: {
-                color: 'white'
-              },
-              vimeo: {
-                color: 'ffffff'
-              },
-              spotify: {
-                preferVideo: true
-              },
-              tiktok: {
-                fullscreen_button: true,
-                progress_bar: true,
-                play_button: true,
-                volume_control: true,
-                timestamp: false,
-                music_info: false,
-                description: false,
-                rel: false,
-                native_context_menu: true,
-                closed_caption: false,
-              }
-            }}
-            onLoadStart={() => console.log('onLoadStart')}
-            onReady={() => console.log('onReady')}
-            onStart={(e) => console.log('onStart', e)}
+            onLoadStart={() => console.log("onLoadStart")}
+            onReady={() => console.log("onReady")}
+            onStart={(e) => console.log("onStart", e)}
             onPlay={handlePlay}
             onEnterPictureInPicture={handleEnterPictureInPicture}
             onLeavePictureInPicture={handleLeavePictureInPicture}
             onPause={handlePause}
             onRateChange={handleRateChange}
-            onSeeking={(e) => console.log('onSeeking', e)}
-            onSeeked={(e) => console.log('onSeeked', e)}
+            onSeeking={(e) => console.log("onSeeking", e)}
+            onSeeked={(e) => console.log("onSeeked", e)}
             onEnded={handleEnded}
-            onError={(e) => console.log('onError', e)}
+            onError={(e) => console.log("onError", e)}
             onTimeUpdate={handleTimeUpdate}
             onProgress={handleProgress}
             onDurationChange={handleDurationChange}
@@ -282,14 +277,14 @@ const App = () => {
                   Stop
                 </button>
                 <button type="button" onClick={handlePlayPause}>
-                  {playing ? 'Pause' : 'Play'}
+                  {playing ? "Pause" : "Play"}
                 </button>
                 <button type="button" onClick={handleClickFullscreen}>
                   Fullscreen
                 </button>
                 {src && ReactPlayer.canEnablePIP?.(src) && (
                   <button type="button" onClick={handleTogglePIP}>
-                    {pip ? 'Disable PiP' : 'Enable PiP'}
+                    {pip ? "Disable PiP" : "Enable PiP"}
                   </button>
                 )}
               </td>
@@ -297,19 +292,33 @@ const App = () => {
             <tr>
               <th>Speed</th>
               <td>
-                <button type="button" onClick={handleSetPlaybackRate} data-value={1}>
+                <button
+                  type="button"
+                  onClick={handleSetPlaybackRate}
+                  data-value={1}
+                >
                   1x
                 </button>
-                <button type="button" onClick={handleSetPlaybackRate} data-value={1.5}>
+                <button
+                  type="button"
+                  onClick={handleSetPlaybackRate}
+                  data-value={1.5}
+                >
                   1.5x
                 </button>
-                <button type="button" onClick={handleSetPlaybackRate} data-value={2}>
+                <button
+                  type="button"
+                  onClick={handleSetPlaybackRate}
+                  data-value={2}
+                >
                   2x
                 </button>
               </td>
             </tr>
             <tr>
-              <th><label htmlFor="seek">Seek</label></th>
+              <th>
+                <label htmlFor="seek">Seek</label>
+              </th>
               <td>
                 <input
                   id="seek"
@@ -325,7 +334,9 @@ const App = () => {
               </td>
             </tr>
             <tr>
-              <th><label htmlFor="volume">Volume</label></th>
+              <th>
+                <label htmlFor="volume">Volume</label>
+              </th>
               <td>
                 <input
                   id="volume"
@@ -413,20 +424,20 @@ const App = () => {
               <th>HTML</th>
               <td>
                 {renderLoadButton(
-                  'https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4',
-                  'mp4'
+                  "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4",
+                  "mp4"
                 )}
                 {renderLoadButton(
-                  'https://test-videos.co.uk/vids/bigbuckbunny/webm/vp8/360/Big_Buck_Bunny_360_10s_1MB.webm',
-                  'webm'
+                  "https://test-videos.co.uk/vids/bigbuckbunny/webm/vp8/360/Big_Buck_Bunny_360_10s_1MB.webm",
+                  "webm"
                 )}
                 {renderLoadButton(
-                  'https://filesamples.com/samples/video/ogv/sample_640x360.ogv',
-                  'ogv'
+                  "https://filesamples.com/samples/video/ogv/sample_640x360.ogv",
+                  "ogv"
                 )}
                 {renderLoadButton(
-                  'https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3',
-                  'mp3'
+                  "https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3",
+                  "mp3"
                 )}
               </td>
             </tr>
@@ -434,8 +445,8 @@ const App = () => {
               <th>HLS</th>
               <td>
                 {renderLoadButton(
-                  'https://stream.mux.com/VcmKA6aqzIzlg3MayLJDnbF55kX00mds028Z65QxvBYaA.m3u8',
-                  'HLS (m3u8)'
+                  "https://stream.mux.com/VcmKA6aqzIzlg3MayLJDnbF55kX00mds028Z65QxvBYaA.m3u8",
+                  "HLS (m3u8)"
                 )}
               </td>
             </tr>
@@ -443,8 +454,8 @@ const App = () => {
               <th>DASH</th>
               <td>
                 {renderLoadButton(
-                  'https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps_640x360_800k.mpd',
-                  'DASH (mpd)'
+                  "https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps_640x360_800k.mpd",
+                  "DASH (mpd)"
                 )}
               </td>
             </tr>
@@ -452,70 +463,93 @@ const App = () => {
               <th>Mux</th>
               <td>
                 {renderLoadButton(
-                  'https://stream.mux.com/maVbJv2GSYNRgS02kPXOOGdJMWGU1mkA019ZUjYE7VU7k',
-                  'Test A'
+                  "https://stream.mux.com/maVbJv2GSYNRgS02kPXOOGdJMWGU1mkA019ZUjYE7VU7k",
+                  "Test A"
                 )}
                 {renderLoadButton(
-                  'https://stream.mux.com/Sc89iWAyNkhJ3P1rQ02nrEdCFTnfT01CZ2KmaEcxXfB008',
-                  'Test B'
+                  "https://stream.mux.com/Sc89iWAyNkhJ3P1rQ02nrEdCFTnfT01CZ2KmaEcxXfB008",
+                  "Test B"
                 )}
               </td>
             </tr>
             <tr>
               <th>YouTube</th>
               <td>
-                {renderLoadButton('https://www.youtube.com/watch?v=oUFJJNQGwhk', 'Test A')}
-                {renderLoadButton('https://www.youtube.com/watch?v=jNgP6d9HraI', 'Test B')}
-                {renderLoadButton('https://www.youtube.com/playlist?list=PLRfhDHeBTBJ7MU5DX4P_oBIRN457ah9lA', 'Playlist')}
+                {renderLoadButton(
+                  "https://www.youtube.com/watch?v=oUFJJNQGwhk",
+                  "Test A"
+                )}
+                {renderLoadButton(
+                  "https://www.youtube.com/watch?v=jNgP6d9HraI",
+                  "Test B"
+                )}
+                {renderLoadButton(
+                  "https://www.youtube.com/playlist?list=PLRfhDHeBTBJ7MU5DX4P_oBIRN457ah9lA",
+                  "Playlist"
+                )}
               </td>
             </tr>
             <tr>
               <th>Vimeo</th>
               <td>
-                {renderLoadButton('https://vimeo.com/90509568', 'Test A')}
-                {renderLoadButton('https://vimeo.com/169599296', 'Test B')}
+                {renderLoadButton("https://vimeo.com/90509568", "Test A")}
+                {renderLoadButton("https://vimeo.com/169599296", "Test B")}
               </td>
             </tr>
             <tr>
               <th>Wistia</th>
               <td>
-                {renderLoadButton('https://home.wistia.com/medias/e4a27b971d', 'Test A')}
-                {renderLoadButton('https://home.wistia.com/medias/29b0fbf547', 'Test B')}
-                {renderLoadButton('https://home.wistia.com/medias/bq6epni33s', 'Test C')}
+                {renderLoadButton(
+                  "https://home.wistia.com/medias/e4a27b971d",
+                  "Test A"
+                )}
+                {renderLoadButton(
+                  "https://home.wistia.com/medias/29b0fbf547",
+                  "Test B"
+                )}
+                {renderLoadButton(
+                  "https://home.wistia.com/medias/bq6epni33s",
+                  "Test C"
+                )}
               </td>
             </tr>
             <tr>
               <th>Spotify</th>
               <td>
-                {renderLoadButton('https://open.spotify.com/episode/5Jo9ncrz2liWiKj8inZwD2', 'Test A')}
+                {renderLoadButton(
+                  "https://open.spotify.com/episode/5Jo9ncrz2liWiKj8inZwD2",
+                  "Test A"
+                )}
               </td>
             </tr>
             <tr>
               <th>Twitch</th>
               <td>
-                {renderLoadButton('https://www.twitch.tv/videos/106400740', 'Test A')}
-                {renderLoadButton('https://www.twitch.tv/kronovi', 'Test B')}
+                {renderLoadButton(
+                  "https://www.twitch.tv/videos/106400740",
+                  "Test A"
+                )}
+                {renderLoadButton("https://www.twitch.tv/kronovi", "Test B")}
               </td>
             </tr>
             <tr>
               <th>TikTok</th>
               <td>
-                {renderLoadButton('https://www.tiktok.com/@_luwes/video/7527476667770522893', 'Test A')}
-                {renderLoadButton('https://www.tiktok.com/@scout2015/video/6718335390845095173', 'Test B')}
+                {renderLoadButton(
+                  "https://www.tiktok.com/@_luwes/video/7527476667770522893",
+                  "Test A"
+                )}
+                {renderLoadButton(
+                  "https://www.tiktok.com/@scout2015/video/6718335390845095173",
+                  "Test B"
+                )}
               </td>
             </tr>
             <tr>
               <th>Custom</th>
               <td>
-                <input
-                  ref={urlInputRef}
-                  type="text"
-                  placeholder="Enter URL"
-                />
-                <button
-                  type="button"
-                  onClick={handleLoadCustomUrl}
-                >
+                <input ref={urlInputRef} type="text" placeholder="Enter URL" />
+                <button type="button" onClick={handleLoadCustomUrl}>
                   Load
                 </button>
               </td>
@@ -529,11 +563,11 @@ const App = () => {
           <tbody>
             <tr>
               <th>src</th>
-              <td className={!src ? 'faded' : ''}>{src || 'null'}</td>
+              <td className={!src ? "faded" : ""}>{src || "null"}</td>
             </tr>
             <tr>
               <th>playing</th>
-              <td>{playing ? 'true' : 'false'}</td>
+              <td>{playing ? "true" : "false"}</td>
             </tr>
             <tr>
               <th>volume</th>

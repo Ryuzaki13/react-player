@@ -1,15 +1,15 @@
-import React from 'react';
-import { AUDIO_EXTENSIONS } from './patterns.js';
-import type { VideoElementProps } from './types.js';
+import React from "react";
+import { AUDIO_EXTENSIONS } from "./patterns.js";
+import type { VideoElementProps } from "./types.js";
 
 const HtmlPlayer = React.forwardRef<HTMLVideoElement, VideoElementProps>((props, ref) => {
-  const Media = AUDIO_EXTENSIONS.test(`${props.src}`) ? 'audio' : 'video';
+	const Media = AUDIO_EXTENSIONS.test(`${props.src}`) ? "audio" : "video";
 
-  return (
-    <Media {...props} ref={ref}>
-      {props.children}
-    </Media>
-  );
+	return (
+		<Media {...props} ref={ref}>
+			{props.children}
+		</Media>
+	);
 });
 
 export default HtmlPlayer;

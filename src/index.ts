@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import players from './players.js';
-import { createReactPlayer } from './ReactPlayer.js';
+import players from "./players.js";
+import { createReactPlayer } from "./ReactPlayer.js";
 
 // Fall back to HtmlPlayer if nothing else can play the URL
 const fallback = players[players.length - 1];

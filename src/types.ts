@@ -1,10 +1,4 @@
-import type { MediaHTMLAttributes, SyntheticEvent } from 'react';
-import type HlsVideoElement from 'hls-video-element';
-import type SpotifyAudioElement from 'spotify-audio-element';
-import type YouTubeVideoElement from 'youtube-video-element';
-import type VimeoVideoElement from 'vimeo-video-element';
-import type TwitchVideoElement from 'twitch-video-element';
-import type TikTokVideoElement from 'tiktok-video-element';
+import type { MediaHTMLAttributes, SyntheticEvent } from "react";
 
 interface VideoHTMLAttributes<T> extends MediaHTMLAttributes<T> {
   height?: number | string | undefined;
@@ -13,12 +7,19 @@ interface VideoHTMLAttributes<T> extends MediaHTMLAttributes<T> {
   width?: number | string | undefined;
   disablePictureInPicture?: boolean | undefined;
   disableRemotePlayback?: boolean | undefined;
-  onEnterPictureInPicture?: ((this: HTMLVideoElement, ev: Event) => void) | undefined;
-  onLeavePictureInPicture?: ((this: HTMLVideoElement, ev: Event) => void) | undefined;
+  onEnterPictureInPicture?:
+    | ((this: HTMLVideoElement, ev: Event) => void)
+    | undefined;
+  onLeavePictureInPicture?:
+    | ((this: HTMLVideoElement, ev: Event) => void)
+    | undefined;
 }
 
 export interface VideoElementProps
-  extends React.DetailedHTMLProps<VideoHTMLAttributes<HTMLVideoElement>, HTMLVideoElement> {
+  extends React.DetailedHTMLProps<
+    VideoHTMLAttributes<HTMLVideoElement>,
+    HTMLVideoElement
+  > {
   playbackRate?: number;
   volume?: number;
   config?: Config;
@@ -45,14 +46,5 @@ export interface PreviewProps {
 }
 
 export interface Config {
-  dash?: Record<string, unknown>;
-  hls?: HlsVideoElement['config'];
   html?: Record<string, unknown>;
-  mux?: Record<string, unknown>;
-  spotify?: SpotifyAudioElement['config'];
-  tiktok?: TikTokVideoElement['config'];
-  twitch?: TwitchVideoElement['config'];
-  vimeo?: VimeoVideoElement['config'];
-  wistia?: Record<string, unknown>;
-  youtube?: YouTubeVideoElement['config'];
 }
