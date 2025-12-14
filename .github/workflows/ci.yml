@@ -14,7 +14,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [20.x, 22.x]
 
     steps:
     - uses: actions/checkout@v4
@@ -31,7 +31,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x, 18.x, 20.x]
+        node-version: [20.x, 22.x]
 
     steps:
     - uses: actions/checkout@v4
@@ -42,7 +42,6 @@ jobs:
         cache: npm
     - run: npm ci
     - run: npm run build
-    - run: npm run build:demo
 
 #   deploy-preview:
 #     # Grant GITHUB_TOKEN the permissions required to make a Pages deployment

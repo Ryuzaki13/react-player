@@ -56,7 +56,6 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run build
-      - run: npm run build:demo
       - run: npx --yes wet-run@1.0.1 release ${{ inputs.version }} ${{ inputs.dryrun && '--dry-run' || '' }} ${{ inputs.prerelease && format('--prerelease {0}', inputs.prerelease) || '' }} --provenance --github-release --verbose
       - name: Get NPM version
         id: npm-version

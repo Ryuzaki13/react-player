@@ -1,7 +1,6 @@
 import path from "node:path";
 import url from "node:url";
 
-import viteReact from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import dts from "vite-plugin-dts";
 import viteTsConfigPaths from "vite-tsconfig-paths";
@@ -30,7 +29,6 @@ const config = defineConfig(() => {
 	return {
 		plugins: [
 			viteTsConfigPaths({ projects: ["./tsconfig.json"] }),
-			viteReact(),
 			dts({
 				entryRoot: "src",
 				// outDir: "types",
