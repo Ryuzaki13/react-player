@@ -2,15 +2,15 @@
   "name": "@ryuzaki13/react-player",
   "version": "3.4.1-beta.0",
   "description": "A React component for playing a variety of URLs, including file paths, Mux, YouTube, Vimeo, and Wistia",
-  "author": "Pete Cook (https://github.com/cookpete)",
+  "author": "Pete Cook (https://github.com/Ryuzaki13)",
   "license": "MIT",
-  "homepage": "https://github.com/cookpete/react-player",
+  "homepage": "https://github.com/Ryuzaki13/react-player",
   "bugs": {
-    "url": "https://github.com/cookpete/react-player/issues"
+    "url": "https://github.com/Ryuzaki13/react-player/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cookpete/react-player.git"
+    "url": "git+https://github.com/Ryuzaki13/react-player.git"
   },
   "files": [
     "dist"
