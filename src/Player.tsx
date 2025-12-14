@@ -75,7 +75,7 @@ const Player: PlayerProps = React.forwardRef((props, ref) => {
 
 	for (const key in props) {
 		if (key.startsWith("on") && !reactPlayerEventHandlers.includes(key)) {
-			eventProps[key] = props[key as keyof PlayerProps];
+			eventProps[key] = (props as unknown as Record<string, EventListenerOrEventListenerObject>)[key];
 		}
 	}
 
