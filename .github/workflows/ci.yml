@@ -14,7 +14,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [24.x]
 
     steps:
     - uses: actions/checkout@v4
@@ -31,7 +31,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [24.x]
 
     steps:
     - uses: actions/checkout@v4
@@ -48,7 +48,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x, 18.x, 20.x]
+        node-version: [20.x, 22.x, 24.x]
 
     steps:
     - uses: actions/checkout@v4
@@ -61,29 +61,29 @@ jobs:
     - run: npm run build
     - run: npm run build:demo
 
-  deploy-preview:
-    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
-    permissions:
-      pages: write      # to deploy to Pages
-      id-token: write   # to verify the deployment originates from an appropriate source
+#   deploy-preview:
+#     # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+#     permissions:
+#       pages: write      # to deploy to Pages
+#       id-token: write   # to verify the deployment originates from an appropriate source
 
-    environment:
-      name: github-preview
-      url: ${{ steps.deployment.outputs.page_url }}
+#     environment:
+#       name: github-preview
+#       url: ${{ steps.deployment.outputs.page_url }}
 
-    runs-on: ubuntu-latest
+#     runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/configure-pages@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - run: npm ci
-      - run: npm run build
-      - run: npm run build:demo
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: './demo'
-      - uses: actions/deploy-pages@v4
-        id: deployment
+#     steps:
+#       - uses: actions/checkout@v4
+#       - uses: actions/configure-pages@v4
+#       - uses: actions/setup-node@v4
+#         with:
+#           node-version: 20
+#       - run: npm ci
+#       - run: npm run build
+#       - run: npm run build:demo
+#       - uses: actions/upload-pages-artifact@v3
+#         with:
+#           path: './demo'
+#       - uses: actions/deploy-pages@v4
+#         id: deployment
