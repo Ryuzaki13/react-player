@@ -1,20 +1,30 @@
 import type { SyntheticEvent } from "react";
-import React, { useCallback, useEffect, useRef } from "react";
-import type { PlayerEntry } from "./players.js";
-import type { ReactPlayerProps } from "./types.js";
+import { forwardRef, useCallback, useEffect, useRef } from "react";
+import { HtmlPlayer } from "./HtmlPlayer";
+import type { ReactPlayerProps, VideoEventProps } from "./types";
 
-type PlayerProps = React.ForwardRefExoticComponent<
-	ReactPlayerProps & {
-		activePlayer: PlayerEntry["player"];
-	}
->;
+function assignEventProp<T extends Record<string, unknown>, K extends keyof T>(target: Partial<T>, source: T, key: K) {
+	target[key] = source[key];
+}
 
-const Player: PlayerProps = React.forwardRef((props, ref) => {
+export const Player = forwardRef<HTMLVideoElement, ReactPlayerProps>((props, ref) => {
 	const { playing, pip } = props;
 
-	const Player = props.activePlayer;
 	const playerRef = useRef<HTMLVideoElement | null>(null);
 	const startOnPlayRef = useRef(true);
+
+	const setRef = useCallback(
+		(node: HTMLVideoElement | null) => {
+			playerRef.current = node;
+
+			if (typeof ref === "function") {
+				ref(node);
+			} else if (ref) {
+				ref.current = node;
+			}
+		},
+		[ref]
+	);
 
 	useEffect(() => {
 		if (!playerRef.current) return;
@@ -42,8 +52,6 @@ const Player: PlayerProps = React.forwardRef((props, ref) => {
 
 		if (!pip && document.pictureInPictureElement) {
 			try {
-				// @ts-ignore
-				playerRef.current.exitPictureInPicture?.();
 				document.exitPictureInPicture?.();
 			} catch (err) {}
 		}
@@ -63,40 +71,22 @@ const Player: PlayerProps = React.forwardRef((props, ref) => {
 		props.onPlay?.(event);
 	};
 
-	if (!Player) {
-		return null;
-	}
-
-	// Filter out ReactPlayer-specific event handlers to prevent them from being passed down
-	// to the underlying HTML video element, which causes React warnings about unknown
-	// event handler properties
-	const eventProps: Record<string, EventListenerOrEventListenerObject> = {};
+	const eventProps: Partial<VideoEventProps> = {};
 	const reactPlayerEventHandlers = ["onReady", "onStart"];
 
 	for (const key in props) {
 		if (key.startsWith("on") && !reactPlayerEventHandlers.includes(key)) {
-			eventProps[key] = (props as unknown as Record<string, EventListenerOrEventListenerObject>)[key];
+			assignEventProp(eventProps, props as VideoEventProps, key as keyof VideoEventProps);
 		}
 	}
 
 	return (
-		<Player
+		<HtmlPlayer
 			{...eventProps}
 			style={props.style}
 			className={props.className}
 			slot={props.slot}
-			ref={useCallback(
-				(node: HTMLVideoElement) => {
-					playerRef.current = node;
-
-					if (typeof ref === "function") {
-						ref(node);
-					} else if (ref !== null) {
-						ref.current = node;
-					}
-				},
-				[ref]
-			)}
+			ref={setRef}
 			src={props.src}
 			crossOrigin={props.crossOrigin}
 			preload={props.preload}
@@ -106,14 +96,11 @@ const Player: PlayerProps = React.forwardRef((props, ref) => {
 			loop={props.loop}
 			playsInline={props.playsInline}
 			disableRemotePlayback={props.disableRemotePlayback}
-			config={props.config}
 			onLoadStart={handleLoadStart}
 			onPlay={handlePlay}>
 			{props.children}
-		</Player>
+		</HtmlPlayer>
 	);
 });
 
 Player.displayName = "Player";
-
-export default Player;

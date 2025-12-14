@@ -16,6 +16,4 @@ const canPlayFile = (url: string, test: (u: string) => boolean) => {
 	return test(url);
 };
 
-export const canPlay = {
-	html: (url: string) => canPlayFile(url, (u: string) => AUDIO_EXTENSIONS.test(u) || VIDEO_EXTENSIONS.test(u))
-};
+export const canPlay = (url: string) => canPlayFile(url, (u: string) => AUDIO_EXTENSIONS.test(u) || VIDEO_EXTENSIONS.test(u));

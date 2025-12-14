@@ -28,14 +28,12 @@
 		}
 	},
 	"scripts": {
-		"clean": "rimraf dist demo coverage",
-		"start": "run-p 'types -- -w' 'build:esm -- --watch=forever' 'build:demo -- --watch=forever --servedir=demo'",
+		"clean": "rimraf dist",
+		"start": "run-p 'types -- -w' 'build:esm -- --watch=forever'",
 		"lint": "biome lint src/*",
 		"types": "tsc",
 		"build": "run-s types build:*",
-		"build:esm": "builder \"src/**/*.*s*\" --outdir=dist --format=esm",
-		"prebuild:demo": "rimraf demo && cp -r examples/react/public demo",
-		"build:demo": "builder ./examples/react/src/index.js --format=esm --splitting --bundle --outdir=demo --minify",
+		"build:esm": "vite build",
 		"preversion": "run-s lint",
 		"version": "auto-changelog -p && git add CHANGELOG.md",
 		"prepublishOnly": "npm run build",
@@ -51,6 +49,7 @@
 		"@types/node": "^20.14.6",
 		"@types/react": "^19.2.7",
 		"@types/react-dom": "^19.2.3",
+		"@vitejs/plugin-react": "^5.1.2",
 		"auto-changelog": "^2.0.0",
 		"builder": "file:./scripts/builder",
 		"c8": "^8.0.1",
@@ -62,7 +61,10 @@
 		"react-dom": "^19.2.3",
 		"rimraf": "^3.0.2",
 		"screenfull": "^5.0.2",
-		"typescript": "^5.9.3"
+		"typescript": "^5.9.3",
+		"vite": "^7.2.7",
+		"vite-plugin-dts": "^4.5.4",
+		"vite-tsconfig-paths": "^5.1.4"
 	},
 	"auto-changelog": {
 		"breakingPattern": "Breaking changes:"
