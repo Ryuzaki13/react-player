@@ -23,6 +23,7 @@ export interface ReactPlayerProps extends VideoElementProps {
 	pip?: boolean;
 	playing?: boolean;
 	wrapper?: string | ComponentType<HTMLAttributes<HTMLDivElement>>;
+	canPlay?: (url: string) => boolean;
 }
 
 type ReactEventHandlers<T> = {
